@@ -9,13 +9,17 @@ import {
   WarningOutlineIcon,
 } from 'native-base'
 import React, { useState } from 'react'
-import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 import Colors from '../constants/Colors'
 import { RootStackParamList } from '../types'
+import { login } from '../api/services/users'
+import { setUserSelector, useUserStore } from '../stores/userStore'
 
 export default function LoginScreen() {
   const { push } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+
+  const setUser = useUserStore(setUserSelector)
 
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
@@ -28,6 +32,23 @@ export default function LoginScreen() {
 
   const isInvalidUsername = usernameTouched && !username
   const isInvalidPassword = passwordTouched && !password
+
+  const handleSubmit = async () => {
+    setPasswordTouched(true)
+    setUsernameTouched(true)
+    if (!password || !username) return
+
+    try {
+      const user = await login({ password, username })
+      setUser(user)
+
+      push('Root')
+    } catch (error) {
+      Alert.alert('', 'Incorrect username or password. Please try again.', [
+        { text: 'OK', style: 'cancel' },
+      ])
+    }
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -97,13 +118,7 @@ export default function LoginScreen() {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            onPress={() => {
-              setPasswordTouched(true)
-              setUsernameTouched(true)
-              if (!password || !username) return
-
-              push('Root')
-            }}
+            onPress={handleSubmit}
           >
             <Text style={{ color: Colors.primary.maroon, fontWeight: 'bold' }}>
               LOGIN

@@ -43,7 +43,7 @@ export default function TopTabBar(props: MaterialTopTabBarProps) {
       >
         <Menu.Item
           onPress={() => {
-            navigation.navigate('All References', { filter: undefined })
+            navigation.navigate('My Collections', { filter: undefined })
             setActiveScreen('allReferences')
           }}
         >
@@ -51,7 +51,7 @@ export default function TopTabBar(props: MaterialTopTabBarProps) {
         </Menu.Item>
         <Menu.Item
           onPress={() => {
-            navigation.navigate('All References', { filter: 'recently added' })
+            navigation.navigate('My Collections', { filter: 'recently added' })
 
             setActiveScreen('recentlyAdded')
           }}
@@ -60,7 +60,7 @@ export default function TopTabBar(props: MaterialTopTabBarProps) {
         </Menu.Item>
         <Menu.Item
           onPress={() => {
-            navigation.navigate('All References', { filter: 'recently read' })
+            navigation.navigate('My Collections', { filter: 'recently read' })
             setActiveScreen('recentlyRead')
           }}
         >
@@ -68,7 +68,7 @@ export default function TopTabBar(props: MaterialTopTabBarProps) {
         </Menu.Item>
         <Menu.Item
           onPress={() => {
-            navigation.navigate('All References', { filter: 'favorites' })
+            navigation.navigate('My Collections', { filter: 'favorites' })
             setActiveScreen('favorites')
           }}
         >
@@ -76,7 +76,7 @@ export default function TopTabBar(props: MaterialTopTabBarProps) {
         </Menu.Item>
         <Menu.Item
           onPress={() => {
-            navigation.navigate('All References', { filter: 'trash' })
+            navigation.navigate('My Collections', { filter: 'trash' })
             setActiveScreen('trash')
           }}
         >

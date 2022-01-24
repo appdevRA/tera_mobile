@@ -6,12 +6,19 @@ import { Menu } from 'native-base'
 import { useNavigation } from '@react-navigation/core'
 import { RootStackParamList } from '../types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-
-const seed = Math.random()
+import * as Constants from 'expo-constants'
+import {
+  setUserSelector,
+  userSelector,
+  useUserStore,
+} from '../stores/userStore'
 
 export default function Header() {
-  const { replace } =
+  const { replace, push } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+
+  const user = useUserStore(userSelector)
+  const setUser = useUserStore(setUserSelector)
 
   return (
     <View
@@ -20,7 +27,7 @@ export default function Header() {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        paddingTop: 44,
+        paddingTop: Constants.default.statusBarHeight,
         padding: 16,
       }}
     >
@@ -45,13 +52,22 @@ export default function Header() {
             <SvgUri
               width={32}
               height={32}
-              uri={`https://avatars.dicebear.com/api/avataaars/${seed}.svg?r=50`}
+              uri={`https://avatars.dicebear.com/api/avataaars/${user?.id}.svg?r=50`}
             />
           </Pressable>
         )}
       >
-        <Menu.Item>Account Settings</Menu.Item>
-        <Menu.Item onPress={() => replace('Login')}>Logout</Menu.Item>
+        <Menu.Item onPress={() => push('AccountSettings')}>
+          Account Settings
+        </Menu.Item>
+        <Menu.Item
+          onPress={() => {
+            replace('Login')
+            setUser()
+          }}
+        >
+          Logout
+        </Menu.Item>
       </Menu>
     </View>
   )

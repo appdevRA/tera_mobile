@@ -1,4 +1,4 @@
-import { Bookmark, Folder } from '../types'
+import { Bookmark, Folder, Group } from '../types'
 
 export const parseFolder = (folder: Folder): Folder => ({
   ...folder,
@@ -10,4 +10,9 @@ export const parseBookmark = (bookmark: Bookmark): Bookmark => ({
   dateAdded: new Date(bookmark.dateAdded),
   dateAccessed: new Date(bookmark.dateAccessed),
   date_removed: bookmark.date_removed ? new Date(bookmark.date_removed) : null,
+})
+
+export const parseGroup = (group: Group): Group => ({
+  ...group,
+  date_created: new Date(group.date_created),
 })
